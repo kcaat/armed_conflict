@@ -34,4 +34,10 @@ is.numeric(maternallong$Year)
 
 #push to github
 install.packages('usethis')
-usethis::use_git_config()
+library(usethis)
+usethis::use_git_config(user.name="kcaat",user.email="kat.lu@mail.utoronto.ca")
+usethis::use_git()
+usethis::create_github_token()
+#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
+gitcreds::gitcreds_set()
+usethis::use_github()
