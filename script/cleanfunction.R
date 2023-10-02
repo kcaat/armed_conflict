@@ -31,17 +31,18 @@ cleandata <- function(dataset, statistic){
 }
 
 #b. Apply the function to each of the four data sets and create four “new” data sets.
-
-maternal <- read.csv("neonatalmortality.csv")
+library(here)
+maternal <- read.csv(here("original/maternalmortality.csv"))
 cleanmaternal <- cleandata(maternal, 'MatMort')
+mean(cleanmaternal$MatMort, na.rm=TRUE)
 
-neonatal <- read.csv("neonatalmortality.csv")
+neonatal <- read.csv(here("original/neonatalmortality.csv"))
 cleanneonatal <- cleandata(neonatal, 'NeoMort')
 
-infant <- read.csv("infantmortality.csv")
+infant <- read.csv(here("original/infantmortality.csv"))
 cleaninfant <- cleandata(infant, 'InfMort')
 
-under5 <- read.csv("under5mortality.csv")
+under5 <- read.csv(here("original/under5mortality.csv"))
 cleanunder5 <- cleandata(under5, 'Under5Mort')
 
 #c. Use the reduce() and full_join() functions to merge the four data sets to create one data set that contains the following variables (pick your own variable names):
@@ -58,8 +59,8 @@ head(merged)
 library(here)
 library(tidyverse)
 library(data.table)
-install.packages("states")
-install.packages("countrycode")
+#install.packages("states")
+#install.packages("countrycode")
 library(states)
 library(countrycode)
 
@@ -67,10 +68,9 @@ library(countrycode)
 merged$ISO <- countrycode(merged$Country.Name, 
                              origin = "country.name", 
                              destination = "iso3c")
-head(countries)
 
 #Then remove the Country name variable.
 merged <- merged[,-1]
 
 #e. Save the new data set.
-write.csv(merged, ("mergedmortality.csv"), row.names = FALSE)
+write.csv(merged, here("original/mergedmortality.csv"), row.names = FALSE)

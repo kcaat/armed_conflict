@@ -9,7 +9,11 @@ conflict <- read.csv(here("original/conflictdata.csv"))
 
 # (0 = no, <25 battle-related deaths; 1 = yes, ≥25 battle-related deaths)
 conflict <- conflict %>%
+  group_by(ISO, year) |>
   mutate(binaryconflict = case_when(best < 25 ~ 0,
                                     best >= 25 ~ 1))
 
-write.csv(conflict, here("orignal/binaryconflict.csv"), row.names = FALSE)
+conflict <- conflict %>%
+  mutate(year = year + 1) #shift years
+
+write.csv(conflict, here("original/binaryconflict.csv"), row.names = FALSE)

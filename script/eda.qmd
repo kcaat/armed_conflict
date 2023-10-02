@@ -1,0 +1,91 @@
+---
+title: "EDA"
+format: html
+editor: visual
+---
+
+## Exploratory Data Analysis
+
+```{r}
+#import data
+library(here)
+finaldata <- read.csv(here("original/finaldata.csv"))
+
+#note
+#when u knit in Quarto, it creates a new R enviro
+#so if u want to load packages, need code to read Rprofile OR load libraries independently in Quarto
+
+#source("../.Rprofile")
+
+#other stuff to look at
+#mortality over time, colour coded by armed conflict
+#log y axis scale
+```
+
+```{r}
+#fix disaster variables to be binary
+finaldata <- finaldata %>%
+  group_by(ISO, Year) |>
+  mutate(earthqbin = case_when(earthquake <1 ~ 0,
+                                    earthquake >= 1 ~ 1))
+
+finaldata <- finaldata %>%
+  group_by(ISO, Year) |>
+  mutate(droughtbin = case_when(drought <1 ~ 0,
+                                    drought >= 1 ~ 1))
+```
+
+```{r}
+library(tidyverse)
+library(Hmisc)
+describe(finaldata)
+```
+
+Observations to note:
+
+-   186 countries/ISOs, 17 regions
+-   Missing: 62 GDP, 426 maternal mortality, 20 popdens/urban/male_edu/temp/all other mortalities
+-   all other variables (eg. disasters) have 0 missing
+-   3720 observations
+
+```{r}
+# descriptions of categorical variables
+cat("drought")
+table(finaldata$droughtbin)
+cat("\nearthquake")
+table(finaldata$earthqbin)
+cat("\nbinaryconflict")
+table(finaldata$binaryconflict)
+```
+
+```{r, warning=FALSE}
+#plots of continuous variables
+ggplot(finaldata, aes(x=gdp)) + geom_histogram(fill="thistle3")
+ggplot(finaldata, aes(x=MatMort)) + geom_histogram(fill="thistle3")
+ggplot(finaldata, aes(x=NeoMort)) + geom_histogram(fill="thistle3")
+ggplot(finaldata, aes(x=InfMort)) + geom_histogram(fill="thistle3")
+ggplot(finaldata, aes(x=Under5Mort)) + geom_histogram(fill="thistle3")
+```
+
+```{r, warning=FALSE}
+#trend plots
+finaldata |>
+  ggplot(aes(x=Year,y=MatMort,group=ISO)) +
+  geom_line(color="skyblue") +
+  xlim(c(2000,2019)) +
+  labs(y="MatMort",x="Year") +
+  theme_bw()
+
+finaldata |>
+  ggplot(aes(x=Year,y=InfMort,group=ISO)) +
+  geom_line(color="skyblue") +
+  xlim(c(2000,2019)) +
+  labs(y="InfMort",x="Year") +
+  theme_bw()
+```
+
+```{r}
+#scatter plots
+plot(finaldata$earthqbin, finaldata$MatMort, main="Scatterplot Example",
+   xlab="Earthquake", ylab="MatMort")
+```
