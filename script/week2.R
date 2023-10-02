@@ -4,17 +4,12 @@
 #Use the select() function in the dplyr package (part of tidyverse) subset the data to have only the variables Country.Name, X2000 – X2019.
 
 library(readr)
-maternalmortality <- read_csv("original/maternalmortality.csv")
+maternalmortality <- read_csv(here("original/maternalmortality.csv"))
 
 # want columns 1 and 45-64
 library(tidyverse)
 maternalsubset <- maternalmortality %>% select(1, 45:64)
 #this didn't work for some reason
-
-#used txt file instead
-maternalmort <- read_table("original/maternalmortality.txt", col_names = TRUE)
-maternalmort <- read.csv("original/maternalmortality.txt", sep="")
-maternalsubset <- maternalmort %>% select(Country.Name, X2000:X2019)
 
 #b.
 #The data set is currently in a wide format. Use the pivot_longer() function to convert the data set into a long format. (See PDF for example)

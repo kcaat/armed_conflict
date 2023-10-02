@@ -2,7 +2,8 @@
 
 ### Disaster
 
-disaster <- read.csv("disaster.csv")
+library(here)
+disaster <- read.csv(here("original/disaster.csv"))
 library(tidyverse)
 disaster <- filter(disaster,between(Year,2000,2019))
 
@@ -30,4 +31,4 @@ disastergrouped <- disaster %>%
 #  i) Year ii) ISO
 #iii) Dummy variable for earthquake iv) Dummy variable for drought
 
-write.csv(disastergrouped, ("disasternew.csv"), row.names = FALSE)
+write.csv(disastergrouped, here("original/disasternew.csv"), row.names = FALSE)

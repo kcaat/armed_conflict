@@ -8,14 +8,14 @@
 
 #not working lol
 library(here)
-source("script\\cleandisaster.R")
-source(here("script","cleandisaster.R"))
-getwd()
+here()
+source(here("script/cleandisaster.R"))
 
-covariates <- read.csv("covariates.csv", header = TRUE)
-mortality <- read.csv("mergedmortality.csv", header = TRUE)
-disaster <- read.csv("disasternew.csv", header = TRUE)
-conflict <- read.csv("binaryconflict.csv", header = TRUE)
+
+covariates <- read.csv(here("original/covariates.csv"))
+mortality <- read.csv(here("original/mergedmortality.csv"))
+disaster <- read.csv(here("original/disasternew.csv"))
+conflict <- read.csv(here("original/binaryconflict.csv"))
 
 head(mortality)
 head(disaster)
@@ -55,4 +55,4 @@ finaldata <- finaldata |>
          earthquake = replace_na(earthquake, 0),
          best = replace_na(best, 0))
 
-write.csv(finaldata, file = ("finaldata.csv"), row.names = FALSE)
+write.csv(finaldata, file = here("original/finaldata.csv"), row.names = FALSE)

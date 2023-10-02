@@ -2,7 +2,7 @@
 
 ### Derive armed conflict
 
-conflict <- read.csv("conflictdata.csv")
+conflict <- read.csv(here("original/conflictdata.csv"))
 #Best = best estimate for total number of battle related deaths
 
 #Write a new R script that derives the binary armed conflict variable that was used as the primary exposure in the paper
@@ -12,4 +12,4 @@ conflict <- conflict %>%
   mutate(binaryconflict = case_when(best < 25 ~ 0,
                                     best >= 25 ~ 1))
 
-write.csv(conflict, ("binaryconflict.csv"), row.names = FALSE)
+write.csv(conflict, here("orignal/binaryconflict.csv"), row.names = FALSE)
